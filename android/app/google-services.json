@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "341862496652",
+    "firebase_url": "https://ichack24-default-rtdb.firebaseio.com",
+    "project_id": "ichack24",
+    "storage_bucket": "ichack24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341862496652:android:d29083c65455caa17e3ea9",
+        "android_client_info": {
+          "package_name": "com.example.ichack24"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdLPnXy7ZSX03tt_4LpLEAXSgVgViZtmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
