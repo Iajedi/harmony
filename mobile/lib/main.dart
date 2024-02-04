@@ -26,8 +26,15 @@ class MyApp extends StatelessWidget {
       title: 'Shopping',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromRGBO(66, 187, 147, 100)),
+            seedColor: Color.fromARGB(108, 250, 203, 134),
+            primary: Color.fromARGB(108, 250, 203, 134)),
         useMaterial3: true,
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            // Set the desired text color for buttons directly in the foregroundColor
+            foregroundColor: MaterialStateProperty.all(Colors.black),
+          ),
+      ),
       ),
       home: const MyHomePage(title: 'Shopping'),
     );
@@ -54,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           currentPageIndex = index;
         });
       },
-      indicatorColor: Theme.of(context).colorScheme.inversePrimary,
+      indicatorColor: Theme.of(context).colorScheme.primary,
       selectedIndex: currentPageIndex,
       destinations: const <Widget>[
         NavigationDestination(
@@ -94,10 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, snapshot) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               // Here we take the value from the MyHomePage object that was created by
               // the App.build method, and use it to set our appbar title.
               title: Text(widget.title),
+              centerTitle: true,
             ),
             bottomNavigationBar: (snapshot.hasData) ? _navBar() : null,
             body: (snapshot.hasData) ? _mainContent() : const Login(),
