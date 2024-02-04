@@ -43,7 +43,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int userid = 91817161; // hardcoded
   int currentPageIndex = 0;
   static const IconData roastChicken =
       IconData(0xea84, fontFamily: 'Chicken', fontPackage: null);

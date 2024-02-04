@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ichack24/auth.dart';
 
@@ -61,7 +62,8 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _fetchUserData() async {
-    final userRef = db.collection("users").doc("91817161");
+    User user = Auth().currentUser!;
+    final userRef = db.collection("users").doc(user.uid);
     final doc = await userRef.get();
     final data = doc.data() as Map<String, dynamic>;
 
@@ -83,7 +85,8 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _setUserData() async {
-    final userRef = db.collection("users").doc("91817161");
+    User user = Auth().currentUser!;
+    final userRef = db.collection("users").doc(user.uid);
     final data = {
       "name": _nameController.text,
       "age": int.parse(_ageController.text),

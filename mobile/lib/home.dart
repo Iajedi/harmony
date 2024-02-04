@@ -1,5 +1,8 @@
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ichack24/auth.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -9,7 +12,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int userid = 91817161; // hardcoded
+  User user = Auth().currentUser!;
+  final db = FirebaseFirestore.instance;
+  int membershipNo = 0;
+
+  Future<void> _fetchUserData() async {
+    final userRef = db.collection("users").doc(user.uid);
+    final doc = await userRef.get();
+    final data = doc.data()!;
+
+    setState(() {
+      membershipNo = data["membership_no"];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +49,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             BarcodeWidget(
-              data: userid.toString(),
+              data: membershipNo.toString(),
               barcode: Barcode.code128(),
             )
           ],
