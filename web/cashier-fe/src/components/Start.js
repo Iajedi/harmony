@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
 
 function reset() {
-  fetch('/purchase/clear', {method: 'DELETE'})
-  .catch(error => console.error("Error resetting table" + error));
+  fetch('/purchase/clear', { method: 'DELETE' })
+    .catch(error => console.error("Error resetting table" + error));
 }
 
 function StartPage() {
@@ -16,7 +15,7 @@ function StartPage() {
         </button>
       </Link>
     </div>
-    
+
   );
 }
 

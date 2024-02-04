@@ -19,7 +19,7 @@ const Router = () => {
         <Route path="/payment" element={<Payment />}></Route>
         <Route path="/membership" element={<MemberScan />}></Route>
       </Routes>
-    </BrowserRouter>    
+    </BrowserRouter>
   )
 }
 
