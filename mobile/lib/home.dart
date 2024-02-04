@@ -15,6 +15,7 @@ class _HomeState extends State<Home> {
   User user = Auth().currentUser!;
   final db = FirebaseFirestore.instance;
   int membershipNo = 0;
+  int numPurchases = 0;
 
   Future<void> _fetchUserData() async {
     final userRef = db.collection("users").doc(user.uid);
@@ -23,6 +24,7 @@ class _HomeState extends State<Home> {
 
     setState(() {
       membershipNo = data["membership_no"];
+      numPurchases = data["num_purchases"];
     });
   }
 
@@ -51,6 +53,13 @@ class _HomeState extends State<Home> {
             BarcodeWidget(
               data: membershipNo.toString(),
               barcode: Barcode.code128(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 250.0),
+              child: Text(
+                'Total purchases: $numPurchases',
+                style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
             )
           ],
         )),
