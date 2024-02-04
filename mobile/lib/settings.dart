@@ -15,6 +15,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
   final db = FirebaseFirestore.instance;
 
   Widget _buildProfileField(String label, TextEditingController controller) {
@@ -42,7 +43,8 @@ class _SettingsPageState extends State<SettingsPage> {
       String label, TextEditingController controller) {
     return TextField(
       controller: controller,
-      keyboardType: label == 'Name' ? TextInputType.text : TextInputType.number,
+      keyboardType: label == 'Name' || label == 'Gender' ? 
+                              TextInputType.text : TextInputType.number,
       decoration: InputDecoration(
         hintText: 'Enter your $label',
         border: const OutlineInputBorder(),
@@ -79,6 +81,9 @@ class _SettingsPageState extends State<SettingsPage> {
           case "weight":
             _weightController.text = entry.value.toString();
             break;
+          case "gender":
+            _genderController.text = entry.value.toString();
+            break;
         }
       }
     });
@@ -90,7 +95,8 @@ class _SettingsPageState extends State<SettingsPage> {
     final data = {
       "name": _nameController.text,
       "age": int.parse(_ageController.text),
-      "weight": double.parse(_weightController.text)
+      "weight": double.parse(_weightController.text),
+      "gender": _genderController.text
     };
     userRef.set(data, SetOptions(merge: true));
   }
@@ -111,6 +117,8 @@ class _SettingsPageState extends State<SettingsPage> {
           _buildProfileField("Name", _nameController),
           const SizedBox(height: 24),
           _buildProfileField("Age", _ageController),
+          const SizedBox(height: 24),
+          _buildProfileField("Gender", _genderController),
           const SizedBox(height: 24),
           _buildProfileField("Weight", _weightController),
           const SizedBox(height: 24),

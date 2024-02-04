@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:ichack24/auth.dart';
-
+import 'dart:core';
 
 class Nutrition extends StatefulWidget {
   const Nutrition({super.key});
@@ -18,7 +18,7 @@ class _NutritionState extends State<Nutrition> with SingleTickerProviderStateMix
   final db = FirebaseFirestore.instance;
 
   late Map<String, dynamic> macros;
-  late double goal = 500.0;
+  final goals = calculateGoals();
 
   Future<void> _fetchUserData() async {
     final userRef = db.collection("users").doc(user.uid);
@@ -28,15 +28,17 @@ class _NutritionState extends State<Nutrition> with SingleTickerProviderStateMix
     setState(() {
       macros = data['nutritionData'];
       for(final entry in macros.entries) {
+        print(entry.key);
+        final ratio = entry.value / goals[entry.key];
         var animationBuilder = TweenAnimationBuilder<double>(
-          duration: const Duration(milliseconds: 1500),
-          curve: Curves.easeInOutExpo,
+          duration: const Duration(milliseconds: 2500),
+          curve: Curves.easeInOutQuart,
           tween: Tween<double>(
               begin: 0,
-              end: entry.value / goal,
+              end: ratio,
           ),
           builder: (context, value, _) =>
-              _buildProgressBar(entry.key, Colors.green, value),
+              _buildProgressBar(entry.key, value),
         );
         _animationBuilders.add(animationBuilder);
       }
@@ -66,7 +68,7 @@ class _NutritionState extends State<Nutrition> with SingleTickerProviderStateMix
       ),
      );
   }
-  Widget _buildProgressBar(String macro, Color color, value) {
+  Widget _buildProgressBar(String macro, value) {
     return Card(
       child: Padding(
         padding: EdgeInsets.all(10.0),
@@ -79,7 +81,7 @@ class _NutritionState extends State<Nutrition> with SingleTickerProviderStateMix
               ))
             ),
             Expanded(child: LinearPercentIndicator(
-              percent: value,
+              percent: value > 1.0 ? 1.0 : value,
               backgroundColor: Colors.grey[300],
               center: Text(
                 (value*100).toStringAsFixed(1) + "%",
@@ -88,7 +90,7 @@ class _NutritionState extends State<Nutrition> with SingleTickerProviderStateMix
                     fontWeight: FontWeight.w600,
                     color: Colors.black),
               ),
-              progressColor: Colors.greenAccent,
+              progressColor: getColor(value),
               barRadius: const Radius.circular(16),
               //valueColor: AlwaysStoppedAnimation<Color>(color),
               lineHeight: 60, 
@@ -104,6 +106,29 @@ class _NutritionState extends State<Nutrition> with SingleTickerProviderStateMix
   Widget _buildHeader(String header) {
     return Text(header, style: TextStyle(fontSize:40, fontWeight: FontWeight.bold));
   }
+
+  Color getColor(double value) {
+    if (value > 2.0) {
+      return Color.fromRGBO(0, 0, 0, 100);
+    } else if (value > 1.0) {
+      return Color.fromRGBO((-1000*(value-1)*(value-2)).round(), 
+                            (255*(1-(1-value).abs())).round(), 0, 100);
+    } else {
+      return Color.fromRGBO((255*(1-value)).round(), (255*value).round(), 
+                                  0, 100);
+    }
+    
+  }
+
+}
+
+calculateGoals() {
+  return <String, double> {
+    "protein": 147*7,
+    "carbohydrates": 321*7,
+    "fat": 68*7,
+    "calories": 2408*7
+  };
 }
 
 extension StringExtension on String {

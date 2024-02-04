@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Shopping',
+      title: 'Harmony',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: Color.fromARGB(108, 250, 203, 134),
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           ),
       ),
       ),
-      home: const MyHomePage(title: 'Shopping'),
+      home: const MyHomePage(title: 'Harmony'),
     );
   }
 }
