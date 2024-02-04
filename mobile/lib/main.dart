@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Shopping',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -90,25 +90,5 @@ class _MyHomePageState extends State<MyHomePage> {
         const SettingsPage()
       ][currentPageIndex],
     );
-  }
-
-  getData() async {
-    var db = FirebaseFirestore.instance;
-    final docRef = db.collection("users").doc("SF");
-    return docRef.get();
-  }
-
-  writeData() async {
-    var db = FirebaseFirestore.instance;
-    final users = db.collection("users");
-    final data1 = <String, dynamic>{
-      "name": "San Francisco",
-      "state": "CA",
-      "country": "USA",
-      "capital": false,
-      "population": 860000,
-      "regions": ["west_coast", "norcal"]
-    };
-    users.doc("SF").set(data1);
   }
 }

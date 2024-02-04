@@ -1,3 +1,4 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -8,26 +9,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int userid = 91817161; // hardcoded
+
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    return Card(
       shadowColor: Colors.transparent,
-      margin: EdgeInsets.all(30.0),
+      margin: const EdgeInsets.all(30.0),
       child: SizedBox.expand(
         child: Center(
             child: Column(
           children: <Widget>[
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(10.0),
               child: Text(
                 'Your Card',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
             ),
-            Image(
-              image: NetworkImage(
-                  "https://www.cognex.com/BarcodeGenerator/Content/images/isbn.png"),
-            )
+            BarcodeWidget(data: userid.toString(), barcode: Barcode.code128())
           ],
         )),
       ),
