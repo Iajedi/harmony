@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^4.15.3
   barcode_widget: ^2.0.4
   firebase_auth: ^4.17.3
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:
