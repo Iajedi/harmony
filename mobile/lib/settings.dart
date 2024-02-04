@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:ichack24/auth.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -119,6 +120,11 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             child: Text(_isEditing ? 'Save Profile' : 'Edit Profile'),
           ),
+          ElevatedButton(
+              onPressed: () async {
+                await Auth().signOut();
+              },
+              child: const Text('Sign Out')),
         ],
       ),
     );
