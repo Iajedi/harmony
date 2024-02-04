@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -12,6 +13,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
+  final db = FirebaseFirestore.instance;
 
   Widget _buildProfileField(String label, TextEditingController controller) {
     return Row(
@@ -24,7 +26,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 Expanded(
                   child: Text(
                     '$label: ',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Expanded(
@@ -55,6 +58,34 @@ class _SettingsPageState extends State<SettingsPage> {
       controller.text.isEmpty ? 'Empty' : controller.text,
       style: TextStyle(fontSize: 20, fontWeight: weight),
     );
+  }
+
+  Future<void> _fetchUserData() async {
+    final userRef = db.collection("users").doc("91817161");
+    final doc = await userRef.get();
+    final data = doc.data() as Map<String, dynamic>;
+
+    setState(() {
+      for (final entry in data.entries) {
+        switch (entry.key) {
+          case "name":
+            _nameController.text = entry.value;
+            break;
+          case "age":
+            _ageController.text = entry.value.toString();
+            break;
+          case "weight":
+            _weightController.text = entry.value.toString();
+            break;
+        }
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
   }
 
   @override
