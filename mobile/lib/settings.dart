@@ -122,7 +122,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 24),
           _buildProfileField("Weight", _weightController),
           const SizedBox(height: 24),
-          ElevatedButton(
+          Center(child: ElevatedButton(
             onPressed: () {
               _setUserData();
               setState(() {
@@ -131,17 +131,21 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             child: Text(
               _isEditing ? 'Save Profile' : 'Edit Profile',
-              style: const TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black, 
+                                    fontSize: 20),
             ),
-          ),
-          ElevatedButton(
+          )),
+          SizedBox(height: 12),
+          Center(child: ElevatedButton(
               onPressed: () async {
                 await Auth().signOut();
               },
               child: const Text(
                 'Sign Out',
-                style: TextStyle(color: Colors.black),
-              )),
+                style: TextStyle(color: Colors.black, 
+                                  fontSize: 20),
+              ))
+          ),
         ],
       ),
     );
