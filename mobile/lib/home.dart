@@ -54,8 +54,10 @@ class _HomeState extends State<Home> {
               data: membershipNo.toString(),
               barcode: Barcode.code128(),
             ),
+            Padding(padding: EdgeInsets.all(15)),
+            Image(image: AssetImage('assets/images/chkn.png')),
             Padding(
-              padding: const EdgeInsets.only(top: 250.0),
+              padding: const EdgeInsets.only(top: 20.0),
               child: Text(
                 'Total purchases: $numPurchases',
                 style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
