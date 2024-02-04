@@ -26,4 +26,19 @@ public class Nutrition {
         return protein;
     }
 
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
+    public void setFat(double fat) {
+        this.fat = fat;
+    }
+
+    public void setCarbs(double carbs) {
+        this.carbs = carbs;
+    }
+
+    public void setProtein(double protein) {
+        this.protein = protein;
+    }
 }

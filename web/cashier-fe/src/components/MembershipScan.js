@@ -8,8 +8,8 @@ function MemberScan() {
             <h2 style={{ textAlign: 'center' }}>Scan Harmony card</h2>
             <MembershipScanner />
             <Kirby />
-            <Link to="/">
-                <button type="button">
+            <Link to="/" style={{textDecoration: 'none'}}>
+                <button>
                     Skip
                 </button>
             </Link>

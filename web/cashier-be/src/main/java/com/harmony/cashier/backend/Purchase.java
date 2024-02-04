@@ -1,12 +1,21 @@
 package com.harmony.cashier.backend;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
+import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.database.GenericTypeIndicator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.Map;
 
 @RestController
 @RequestMapping("/purchase")
@@ -66,8 +75,18 @@ public class Purchase {
         return ResponseEntity.ok().build();
     }
 
-//    @PutMapping("/purchase/pay/{cid}")
-//    public ResponseEntity uploadPurchase(@PathVariable long id) {
-//
-//    }
+    @PostMapping("/pay/{cid}")
+    public ResponseEntity uploadPurchase(@PathVariable long cid) {
+        ResponseEntity result;
+        String query = String.valueOf(cid);
+        try {
+            result = service.getUserNutrition(query);
+            if (result == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return result;
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
