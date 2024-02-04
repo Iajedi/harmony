@@ -121,13 +121,19 @@ class _SettingsPageState extends State<SettingsPage> {
                 _isEditing = !_isEditing;
               });
             },
-            child: Text(_isEditing ? 'Save Profile' : 'Edit Profile'),
+            child: Text(
+              _isEditing ? 'Save Profile' : 'Edit Profile',
+              style: const TextStyle(color: Colors.black),
+            ),
           ),
           ElevatedButton(
               onPressed: () async {
                 await Auth().signOut();
               },
-              child: const Text('Sign Out')),
+              child: const Text(
+                'Sign Out',
+                style: TextStyle(color: Colors.black),
+              )),
         ],
       ),
     );

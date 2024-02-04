@@ -44,7 +44,10 @@ class _LoginState extends State<Login> {
                     email: _controllerEmail.text,
                     password: _controllerPassword.text);
               },
-              child: const Text("Sign In"))
+              child: const Text(
+                "Sign In",
+                style: TextStyle(color: Colors.black),
+              ))
         ],
       ),
     );
