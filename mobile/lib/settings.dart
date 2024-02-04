@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ichack24/auth.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -12,6 +15,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
+  final db = FirebaseFirestore.instance;
 
   Widget _buildProfileField(String label, TextEditingController controller) {
     return Row(
@@ -24,7 +28,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 Expanded(
                   child: Text(
                     '$label: ',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Expanded(
@@ -37,10 +42,9 @@ class _SettingsPageState extends State<SettingsPage> {
       String label, TextEditingController controller) {
     return TextField(
       controller: controller,
-      keyboardType: TextInputType.text,
+      keyboardType: label == 'Name' ? TextInputType.text : TextInputType.number,
       decoration: InputDecoration(
-        hintText:
-            controller.text.isEmpty ? 'Enter your $label' : controller.text,
+        hintText: 'Enter your $label',
         border: const OutlineInputBorder(),
       ),
       style: const TextStyle(fontSize: 15),
@@ -55,6 +59,46 @@ class _SettingsPageState extends State<SettingsPage> {
       controller.text.isEmpty ? 'Empty' : controller.text,
       style: TextStyle(fontSize: 20, fontWeight: weight),
     );
+  }
+
+  Future<void> _fetchUserData() async {
+    User user = Auth().currentUser!;
+    final userRef = db.collection("users").doc(user.uid);
+    final doc = await userRef.get();
+    final data = doc.data() as Map<String, dynamic>;
+
+    setState(() {
+      for (final entry in data.entries) {
+        switch (entry.key) {
+          case "name":
+            _nameController.text = entry.value;
+            break;
+          case "age":
+            _ageController.text = entry.value.toString();
+            break;
+          case "weight":
+            _weightController.text = entry.value.toString();
+            break;
+        }
+      }
+    });
+  }
+
+  Future<void> _setUserData() async {
+    User user = Auth().currentUser!;
+    final userRef = db.collection("users").doc(user.uid);
+    final data = {
+      "name": _nameController.text,
+      "age": int.parse(_ageController.text),
+      "weight": double.parse(_weightController.text)
+    };
+    userRef.set(data, SetOptions(merge: true));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
   }
 
   @override
@@ -72,12 +116,18 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () {
+              _setUserData();
               setState(() {
                 _isEditing = !_isEditing;
               });
             },
             child: Text(_isEditing ? 'Save Profile' : 'Edit Profile'),
           ),
+          ElevatedButton(
+              onPressed: () async {
+                await Auth().signOut();
+              },
+              child: const Text('Sign Out')),
         ],
       ),
     );
