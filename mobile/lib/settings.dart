@@ -40,10 +40,9 @@ class _SettingsPageState extends State<SettingsPage> {
       String label, TextEditingController controller) {
     return TextField(
       controller: controller,
-      keyboardType: TextInputType.text,
+      keyboardType: label == 'Name' ? TextInputType.text : TextInputType.number,
       decoration: InputDecoration(
-        hintText:
-            controller.text.isEmpty ? 'Enter your $label' : controller.text,
+        hintText: 'Enter your $label',
         border: const OutlineInputBorder(),
       ),
       style: const TextStyle(fontSize: 15),
@@ -86,8 +85,8 @@ class _SettingsPageState extends State<SettingsPage> {
     final userRef = db.collection("users").doc("91817161");
     final data = {
       "name": _nameController.text,
-      "age": _ageController.text,
-      "weight": _weightController.text
+      "age": int.parse(_ageController.text),
+      "weight": double.parse(_weightController.text)
     };
     userRef.set(data, SetOptions(merge: true));
   }
