@@ -27,7 +27,10 @@ class _HomeState extends State<Home> {
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
             ),
-            BarcodeWidget(data: userid.toString(), barcode: Barcode.code128())
+            BarcodeWidget(
+              data: userid.toString(),
+              barcode: Barcode.code128(),
+            )
           ],
         )),
       ),

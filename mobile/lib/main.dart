@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Shopping',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromRGBO(66, 187, 147, 100)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Shopping'),
