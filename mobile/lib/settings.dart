@@ -82,6 +82,16 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
+  Future<void> _setUserData() async {
+    final userRef = db.collection("users").doc("91817161");
+    final data = {
+      "name": _nameController.text,
+      "age": _ageController.text,
+      "weight": _weightController.text
+    };
+    userRef.set(data, SetOptions(merge: true));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -103,6 +113,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () {
+              _setUserData();
               setState(() {
                 _isEditing = !_isEditing;
               });
