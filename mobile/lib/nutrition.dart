@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:ichack24/auth.dart';
+
 
 class Nutrition extends StatefulWidget {
   const Nutrition({super.key});
@@ -11,15 +14,16 @@ class Nutrition extends StatefulWidget {
 
 class _NutritionState extends State<Nutrition> with SingleTickerProviderStateMixin {
   List<TweenAnimationBuilder<double>> _animationBuilders = [];
+  User user = Auth().currentUser!;
   final db = FirebaseFirestore.instance;
 
   late Map<String, dynamic> macros;
   late double goal = 500.0;
 
   Future<void> _fetchUserData() async {
-    final userRef = db.collection("users").doc("91817161");
+    final userRef = db.collection("users").doc(user.uid);
     final doc = await userRef.get();
-    final data = doc.data() as Map<String, dynamic>;
+    final data = doc.data()!;
 
     setState(() {
       macros = data['nutritionData'];
